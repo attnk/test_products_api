@@ -17,7 +17,7 @@ public class ProductImages implements Serializable {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "person_id")
+	@JoinColumn(name = "product_id")
 	private Product productId;
 	
 	@Column
