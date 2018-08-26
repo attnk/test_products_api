@@ -1,4 +1,4 @@
-package com.br.productapi.product.business;
+package com.br.productapi.product.exception;
 
 public class BusinessException extends RuntimeException {
 

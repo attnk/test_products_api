@@ -213,4 +213,25 @@ public class ProductServiceTest {
 		}
 	}
 	
+	@Test
+	public void shouldGetProductReturnEmptyListOfProductsWhenNotFoundAnyResultToFilteredText() 
+			throws ServiceException {
+		// GIVEN
+		String text = "qualquercoisa";
+		List<Product> result = new ArrayList<>();
+		
+		when(repository.getProductsByText(text, pageRequst))
+		.thenReturn(Optional.empty());
+		
+		// WHEN
+		result = service.getProducts(text, pageRequst);
+
+		// THEN
+		verify(repository, never()).findAll();
+		verify(repository, times(1)).getProductsByText(anyString(), any(Pageable.class));
+		
+		assertNotNull(result);
+		assertTrue(result.isEmpty());
+	}
+	
 }
