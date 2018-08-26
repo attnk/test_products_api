@@ -26,6 +26,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 
 import com.br.productapi.product.business.service.ProductService;
+import com.br.productapi.product.exception.BusinessException;
 import com.br.productapi.product.exception.ServiceException;
 import com.br.productapi.product.model.Product;
 

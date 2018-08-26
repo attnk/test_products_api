@@ -7,6 +7,7 @@ import static org.springframework.util.Assert.notNull;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,13 +43,15 @@ public class ProductService {
 		hasText(text, "Parâmetro 'text' não deve ser nulo ou vazio!");
 		notNull(pageable, "Paraâmetro 'pageable' não deve ser nulo!");
 		
-		List<Product> result = new ArrayList<>();
+		List<Product> result;
 		
 		try {
 			List<ProductEntity> dbResult = ALL.name().equals(text) ? 
 					repository.findAll() : repository.getProductsByText(text, pageable).get();
 					
-			result.addAll(getProductsList(text, dbResult));
+			result = getProductsList(text, dbResult);
+		} catch(NoSuchElementException e) {
+			result = new ArrayList<>();
 		} catch (Exception e) {
 			throw new ServiceException(
 					"Falha ao retornar dados da base:"+ e.getMessage(),

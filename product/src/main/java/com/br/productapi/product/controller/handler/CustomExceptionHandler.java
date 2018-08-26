@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.br.productapi.product.business.BusinessException;
+import com.br.productapi.product.exception.BusinessException;
 
 @ControllerAdvice
 public class CustomExceptionHandler {

@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.br.productapi.product.business.service.ProductService;
+import com.br.productapi.product.exception.BusinessException;
 import com.br.productapi.product.model.Product;
 
 @Service
