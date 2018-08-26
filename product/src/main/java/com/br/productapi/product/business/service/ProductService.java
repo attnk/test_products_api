@@ -1,10 +1,13 @@
 package com.br.productapi.product.business.service;
 
+import static com.br.productapi.product.enuns.SearchFilter.ALL;
 import static org.springframework.util.Assert.hasText;
 import static org.springframework.util.Assert.notNull;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +45,10 @@ public class ProductService {
 		List<Product> result = new ArrayList<>();
 		
 		try {
-			List<ProductEntity> dbResult = repository.getProductsByText(text, pageable).get();
+			List<ProductEntity> dbResult = ALL.name().equals(text) ? 
+					repository.findAll() : repository.getProductsByText(text, pageable).get();
+					
 			result.addAll(getProductsList(text, dbResult));
-			
 		} catch (Exception e) {
 			throw new ServiceException(
 					"Falha ao retornar dados da base:"+ e.getMessage(),
@@ -55,7 +59,7 @@ public class ProductService {
 	}
 
 	private List<Product> getProductsList(String text, List<ProductEntity> dbResult) {
-		List<Product> products = new ArrayList<>();
+		Set<Product> products = new HashSet<>();
 		
 		dbResult.stream().forEach(p -> {
 			Product product = new Product();
@@ -76,7 +80,7 @@ public class ProductService {
 			products.add(product);
 		});
 		
-		return products;
+		return new ArrayList<>(products);
 	}
 	
 }

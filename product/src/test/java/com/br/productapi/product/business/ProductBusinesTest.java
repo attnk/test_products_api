@@ -4,10 +4,15 @@ import static br.com.six2six.fixturefactory.Fixture.from;
 import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemplates;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpStatus.OK;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -18,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 
 import com.br.productapi.product.business.service.ProductService;
 import com.br.productapi.product.exception.ServiceException;
@@ -38,7 +44,7 @@ public class ProductBusinesTest {
 	@Before
 	public void init() {
 		loadTemplates(TEMPLATES_PATH);
-		this.pageRequst = PageRequest.of(0, 10);
+		this.pageRequst = PageRequest.of(0, 1);
 	}
 	
 	// getProducts - devolve IllegalArgumentException quando texto é nulo
@@ -47,14 +53,17 @@ public class ProductBusinesTest {
 			throws Exception {
 		// GIVEN
 		String text = null;
-		List<Product> result = new ArrayList<>();
+		ResponseEntity<List<Product>> result = null;
 		
 		try {
 			// WHEN
 			result = business.getProducts(text, pageRequst);
 		} catch (Exception e) {
 			// THEN
-			assertTrue(result.isEmpty());
+			verify(service, never()).getProducts(text, pageRequst);
+			verifyNoMoreInteractions(service);
+			
+			assertNull(result);
 			throw e;
 		}
 	}
@@ -65,14 +74,17 @@ public class ProductBusinesTest {
 			throws Exception {
 		// GIVEN
 		String text = "";
-		List<Product> result = new ArrayList<>();
+		ResponseEntity<List<Product>> result = null;
 		
 		try {
 			// WHEN
 			result = business.getProducts(text, pageRequst);
 		} catch (Exception e) {
 			// THEN
-			assertTrue(result.isEmpty());
+			verify(service, never()).getProducts(text, pageRequst);
+			verifyNoMoreInteractions(service);
+			
+			assertNull(result);
 			throw e;
 		}
 	}
@@ -83,16 +95,19 @@ public class ProductBusinesTest {
 			throws Exception {
 		// GIVEN
 		String text = "test-01";
-		List<Product> result = new ArrayList<>();
+		ResponseEntity<List<Product>> result = null;
 		
 		try {
 			// WHEN
 			result = business.getProducts(text, null);
 		} catch (Exception e) {
 			// THEN
-			assertTrue(result.isEmpty());
+			verify(service, never()).getProducts(text, pageRequst);
+			verifyNoMoreInteractions(service);
+			
+			assertNull(result);
 			throw e;
-		}	
+		}
 	}
 	
 	// getProducts - devolve BusinessException quando service devolve ServiceException
@@ -101,7 +116,7 @@ public class ProductBusinesTest {
 			throws Exception {
 		// GIVEN
 		String text = "test-01";
-		List<Product> result = new ArrayList<>();
+		ResponseEntity<List<Product>> result = null;
 		
 		when(service.getProducts(text, pageRequst))
 		.thenThrow(new ServiceException(
@@ -113,7 +128,10 @@ public class ProductBusinesTest {
 			result = business.getProducts(text, pageRequst);
 		} catch (Exception e) {
 			// THEN
-			assertTrue(result.isEmpty());
+			verify(service, times(1)).getProducts(text, pageRequst);
+			verifyNoMoreInteractions(service);
+			
+			assertNull(result);
 			throw e;
 		}	
 	}
@@ -124,7 +142,7 @@ public class ProductBusinesTest {
 			throws ServiceException {
 		// GIVEN
 		String text = "test-01";
-		List<Product> result = new ArrayList<>();
+		ResponseEntity<List<Product>> result = null;
 		
 		List<Product> serviceResult = from(Product.class)
 				.gimme(1, "product-test-01");
@@ -133,13 +151,33 @@ public class ProductBusinesTest {
 		.thenReturn(serviceResult);
 		
 		// WHEN
-		result = service.getProducts(text, pageRequst);
+		result = business.getProducts(text, pageRequst);
 
 		// THEN
-		assertNotNull(result);
-		assertFalse(result.isEmpty());
+		verify(service, times(1)).getProducts(text, pageRequst);
+		verifyNoMoreInteractions(service);
 		
-		for (Product p : result) {
+		assertNotNull(result);
+		assertNotNull(result.getStatusCode());
+		assertNotNull(result.getHeaders());
+		assertNotNull(result.getBody());
+		
+		assertTrue(result.getStatusCode().is2xxSuccessful());
+		assertTrue(OK.equals(result.getStatusCode()));
+
+		assertFalse(result.getHeaders().get("X-Paging-Total-Entries").isEmpty());
+		assertFalse(result.getHeaders().get("X-Paging-Entries-Per-Page").isEmpty());
+		assertFalse(result.getHeaders().get("X-Paging-Current-Page").isEmpty());
+		assertFalse(result.getHeaders().get("X-Paging-Total-Pages").isEmpty());
+		
+		assertTrue(result.getHeaders().get("X-Paging-Total-Entries").get(0).equals("1"));
+		assertTrue(result.getHeaders().get("X-Paging-Entries-Per-Page").get(0).equals("1"));
+		assertTrue(result.getHeaders().get("X-Paging-Current-Page").get(0).equals("0"));
+		assertTrue(result.getHeaders().get("X-Paging-Total-Pages").get(0).equals("1"));
+		
+		assertFalse(result.getBody().isEmpty());
+		
+		for (Product p : result.getBody()) {
 			assertNotNull(p.getId());
 			
 			assertNotNull(p.getName());

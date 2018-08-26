@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.br.productapi.product.entity.ProductEntity;
@@ -15,9 +14,10 @@ import com.br.productapi.product.entity.ProductEntity;
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
 	@Query("SELECT p "
-			+ "FROM Product p "
-			+ "INNER JOIN ProductImages pi "
-			+ "WHERE p.name LIKE CONCAT('%', :text,'%') "
-			+ "OR p.category LIKE CONCAT('%', :text, '%')")
-	public Optional<List<ProductEntity>> getProductsByText(@Param("text")String text, Pageable pageable);
+			+ "FROM ProductEntity p "
+			+ "INNER JOIN p.images "
+			+ "WHERE p.name LIKE %?1% "
+			+ "OR p.category LIKE %?1% "
+			+ "OR p.size LIKE %?1% ")
+	public Optional<List<ProductEntity>> getProductsByText(String text, Pageable pageable);
 }
