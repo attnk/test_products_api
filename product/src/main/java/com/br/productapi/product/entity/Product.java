@@ -1,7 +1,7 @@
 package com.br.productapi.product.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +27,12 @@ public class Product implements Serializable {
 	
 	@Column
 	private String size;
+
+	@Column(name="price_from")
+	private BigDecimal priceFrom;
 	
-	@Column(name="created_at")
-	private LocalDateTime createdAt;
+	@Column(name="price_to")
+	private BigDecimal priceTo;
 	
 	@OneToMany
 	@JoinColumn(name= "product_id")
@@ -65,6 +68,22 @@ public class Product implements Serializable {
 
 	public void setSize(String size) {
 		this.size = size;
+	}
+
+	public BigDecimal getPriceFrom() {
+		return priceFrom;
+	}
+
+	public void setPriceFrom(BigDecimal priceFrom) {
+		this.priceFrom = priceFrom;
+	}
+
+	public BigDecimal getPriceTo() {
+		return priceTo;
+	}
+
+	public void setPriceTo(BigDecimal priceTo) {
+		this.priceTo = priceTo;
 	}
 
 	public List<ProductImages> getContacts() {
