@@ -44,6 +44,4 @@ public class ProductBusiness {
 		return result;
 	}
 	
-	
-	
 }
