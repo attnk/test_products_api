@@ -1,0 +1,26 @@
+info:
+  component: API de Listagem de produtos
+  build:
+    version: '@project.version@'
+    name: '@project.name@'
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/product
+    username: product_app
+    password: productapp123
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+        temp:
+          use_jdbc_metadata_defaults: false
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: health,info
+  security:
+    enable: false
