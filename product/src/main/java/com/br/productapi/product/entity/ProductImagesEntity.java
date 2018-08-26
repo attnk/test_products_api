@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
-public class ProductImages implements Serializable {
+@Table(name="product_images", schema="product")
+public class ProductImagesEntity implements Serializable {
 
 	private static final long serialVersionUID = -5901949122967613264L;
 
@@ -18,7 +20,7 @@ public class ProductImages implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	private Product productId;
+	private ProductEntity productId;
 	
 	@Column
 	private String url;
@@ -31,11 +33,11 @@ public class ProductImages implements Serializable {
 		this.id = id;
 	}
 
-	public Product getProductId() {
+	public ProductEntity getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Product productId) {
+	public void setProductId(ProductEntity productId) {
 		this.productId = productId;
 	}
 
