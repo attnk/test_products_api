@@ -5,7 +5,7 @@
 
 	<groupId>com.br.productapi</groupId>
 	<artifactId>product</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>product</name>
@@ -87,6 +87,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>product</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
