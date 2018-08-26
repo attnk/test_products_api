@@ -30,7 +30,7 @@ public class Product implements Serializable {
 	private BigDecimal priceFrom;
 	private BigDecimal priceTo;
 	private List<String> images = new ArrayList<>();
-	private String serachBy;
+	private String searchBy;
 
 	public Long getId() {
 		return id;
@@ -123,16 +123,16 @@ public class Product implements Serializable {
 		return this;
 	}
 
-	public String getSerachBy() {
-		return serachBy;
+	public String getSearchBy() {
+		return searchBy;
 	}
 
-	public void setSerachBy(String serachBy) {
-		this.serachBy = serachBy;
+	public void setSearchBy(String searchBy) {
+		this.searchBy = searchBy;
 	}
 	
-	public Product withSerachBy(String searchBy) {
-		this.serachBy = searchBy;
+	public Product withSearchBy(String searchBy) {
+		this.searchBy = searchBy;
 		return this;
 	}
 	

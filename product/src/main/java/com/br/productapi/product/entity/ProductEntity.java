@@ -10,9 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
-public class Product implements Serializable {
+@Table(name="product")
+public class ProductEntity implements Serializable {
 	
 	private static final long serialVersionUID = -4788933430058589368L;
 
@@ -36,7 +38,7 @@ public class Product implements Serializable {
 	
 	@OneToMany
 	@JoinColumn(name= "product_id")
-	private List<ProductImages> images = new ArrayList<>();
+	private List<ProductImagesEntity> images = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -86,11 +88,11 @@ public class Product implements Serializable {
 		this.priceTo = priceTo;
 	}
 
-	public List<ProductImages> getContacts() {
+	public List<ProductImagesEntity> getImages() {
 		return images;
 	}
 
-	public void setContacts(List<ProductImages> images) {
+	public void setContacts(List<ProductImagesEntity> images) {
 		this.images = images;
 	}
 	
