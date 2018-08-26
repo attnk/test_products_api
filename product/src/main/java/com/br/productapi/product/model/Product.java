@@ -2,6 +2,7 @@ package com.br.productapi.product.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -28,7 +29,7 @@ public class Product implements Serializable {
 	private String size;
 	private BigDecimal priceFrom;
 	private BigDecimal priceTo;
-	private List<String> images;
+	private List<String> images = new ArrayList<>();
 	private String serachBy;
 
 	public Long getId() {
@@ -39,6 +40,11 @@ public class Product implements Serializable {
 		this.id = id;
 	}
 
+	public Product withId(Long id) {
+		this.id = id;
+		return this;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -47,10 +53,20 @@ public class Product implements Serializable {
 		this.name = name;
 	}
 
+	public Product withName(String name) {
+		this.name = name;
+		return this;
+	}
+	
 	public String getCategory() {
 		return category;
 	}
 
+	public Product withCategory(String category) {
+		this.category = category;
+		return this;
+	}
+	
 	public void setCategory(String category) {
 		this.category = category;
 	}
@@ -63,6 +79,11 @@ public class Product implements Serializable {
 		this.size = size;
 	}
 
+	public Product withSize(String size) {
+		this.size = size;
+		return this;
+	}
+	
 	public BigDecimal getPriceFrom() {
 		return priceFrom;
 	}
@@ -71,6 +92,11 @@ public class Product implements Serializable {
 		this.priceFrom = priceFrom;
 	}
 
+	public Product withPriceFrom(BigDecimal priceFrom) {
+		this.priceFrom = priceFrom;
+		return this;
+	}
+	
 	public BigDecimal getPriceTo() {
 		return priceTo;
 	}
@@ -79,12 +105,22 @@ public class Product implements Serializable {
 		this.priceTo = priceTo;
 	}
 
+	public Product withPriceTo(BigDecimal priceTo) {
+		this.priceTo = priceTo;
+		return this;
+	}
+	
 	public List<String> getImages() {
 		return images;
 	}
 
 	public void setImages(List<String> images) {
 		this.images = images;
+	}
+	
+	public Product withImages(List<String> images) {
+		this.images.addAll(images);
+		return this;
 	}
 
 	public String getSerachBy() {
@@ -93,6 +129,11 @@ public class Product implements Serializable {
 
 	public void setSerachBy(String serachBy) {
 		this.serachBy = serachBy;
+	}
+	
+	public Product withSerachBy(String searchBy) {
+		this.serachBy = searchBy;
+		return this;
 	}
 	
 }
