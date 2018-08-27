@@ -3,8 +3,11 @@
 
 ## Tecnologias
  > [Java 10]
+
  > [Postgres] (versão 10)
+
  > [Spring Boot 2]
+
  > [Maven]
 
 ## Como executar
@@ -112,8 +115,11 @@ O serviço dispónível para consulta dos dados e busca utilzando alguma palavra
  ```
  - Outros dados importantes para que sejam realizados as navegações nas páginas são as informações retornadas no `HEADER` da resposta: 
  > X-Paging-Total-Entries
+
  > X-Paging-Entries-Per-Page
+
  > X-Paging-Current-Page
+ 
  > X-Paging-Total-Pages
 
  - A applicação está gerando LOGs, e os mesmo poderão ser encotrados no `/data/logs/product/app.log`
