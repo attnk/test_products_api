@@ -13,7 +13,7 @@ import com.br.productapi.product.entity.ProductEntity;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
-	@Query("SELECT p "
+	@Query("SELECT DISTINCT p "
 			+ "FROM ProductEntity p "
 			+ "INNER JOIN p.images "
 			+ "WHERE p.name LIKE %?1% "
