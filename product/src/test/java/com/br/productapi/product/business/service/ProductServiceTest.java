@@ -145,7 +145,7 @@ public class ProductServiceTest {
 		result = service.getProducts(text, pageRequst);
 
 		// THEN
-		verify(repository, never()).findAll();
+		verify(repository, never()).getAllProducts(pageRequst);
 		verify(repository, times(1)).getProductsByText(text, pageRequst);
 		
 		assertNotNull(result);
@@ -178,16 +178,17 @@ public class ProductServiceTest {
 		String text = ALL.name();
 		List<Product> result = new ArrayList<>();
 		
-		List<ProductEntity> repoResult = from(ProductEntity.class)
-				.gimme(1, "product-entity-test-01");
+		Optional<List<ProductEntity>> repoResult = of(
+				from(ProductEntity.class)
+				.gimme(1, "product-entity-test-01"));
 		
-		when(repository.findAll()).thenReturn(repoResult);
+		when(repository.getAllProducts(pageRequst)).thenReturn(repoResult);
 		
 		// WHEN
 		result = service.getProducts(text, pageRequst);
 
 		// THEN
-		verify(repository, times(1)).findAll();
+		verify(repository, times(1)).getAllProducts(pageRequst);
 		verify(repository, never()).getProductsByText(anyString(), any(Pageable.class));
 		
 		assertNotNull(result);
@@ -227,7 +228,7 @@ public class ProductServiceTest {
 		result = service.getProducts(text, pageRequst);
 
 		// THEN
-		verify(repository, never()).findAll();
+		verify(repository, never()).getAllProducts(pageRequst);
 		verify(repository, times(1)).getProductsByText(anyString(), any(Pageable.class));
 		
 		assertNotNull(result);
