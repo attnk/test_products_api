@@ -47,7 +47,7 @@ public class ProductService {
 		
 		try {
 			List<ProductEntity> dbResult = ALL.name().equals(text) ? 
-					repository.findAll() : repository.getProductsByText(text, pageable).get();
+					repository.getAllProducts(pageable).get() : repository.getProductsByText(text, pageable).get();
 					
 			result = getProductsList(text, dbResult);
 		} catch(NoSuchElementException e) {
