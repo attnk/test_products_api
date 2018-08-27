@@ -20,4 +20,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 			+ "OR p.category LIKE %?1% "
 			+ "OR p.size LIKE %?1% ")
 	public Optional<List<ProductEntity>> getProductsByText(String text, Pageable pageable);
+	
+	@Query("SELECT DISTINCT p FROM ProductEntity p INNER JOIN p.images ")
+	public Optional<List<ProductEntity>> getAllProducts(Pageable pageable);
 }
